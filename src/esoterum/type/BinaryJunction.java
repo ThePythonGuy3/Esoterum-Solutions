@@ -1,8 +1,10 @@
 package esoterum.type;
 
+import arc.graphics.Color;
 import arc.graphics.g2d.*;
 import arc.struct.*;
 import arc.util.*;
+import esoterum.content.EsoVars;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 
@@ -24,7 +26,17 @@ public class BinaryJunction extends BinaryBlock{
 
         @Override
         public void draw() {
-            super.draw();
+            Draw.rect(region, x, y);
+            Draw.color(Color.white, EsoVars.connectionColor, lastSignal ? 1f : 0f);
+            if(drawConnection) for (Building b : nb) {
+                if(!(b instanceof BinaryBuild) || b.team != team) continue;
+                if(!b.block.rotate || (b.front() == this || b.back() == this) || front() == b){
+                    if(!(b.back() == this && front() != b) || !b.block.rotate){
+                        Draw.rect(connectionRegion, x, y, relativeTo(b) * 90);
+                    }
+                }
+            }
+            Draw.rect(topRegion, x, y, rotdeg());
         }
 
         @Override
@@ -47,6 +59,7 @@ public class BinaryJunction extends BinaryBlock{
                     && ((BinaryBuild)from).emits()
                     && (!to.block.rotate || to.front() != this)
                     && (!from.block.rotate || from.front() == this);
+
         }
 
         @Override

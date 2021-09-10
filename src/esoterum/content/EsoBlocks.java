@@ -1,6 +1,7 @@
 package esoterum.content;
 
 import arc.Core;
+import arc.graphics.g2d.TextureRegion;
 import esoterum.type.*;
 import mindustry.ctype.ContentList;
 import mindustry.world.*;
@@ -20,6 +21,15 @@ public class EsoBlocks implements ContentList {
             public void load(){
                 super.load();
                 connectionRegion = Core.atlas.find("eso-connection-large");
+            }
+
+            @Override
+            protected TextureRegion[] icons() {
+                return new TextureRegion[]{
+                    region,
+                    topRegion,
+                    connectionRegion
+                };
             }
         };
 
@@ -43,6 +53,15 @@ public class EsoBlocks implements ContentList {
             @Override
             public boolean operation(boolean[] in){
                 return !in[1];
+            }
+
+            @Override
+            protected TextureRegion[] icons() {
+                return new TextureRegion[]{
+                    region,
+                    topRegion,
+                    Core.atlas.find("eso-not-connections")
+                };
             }
         };
 

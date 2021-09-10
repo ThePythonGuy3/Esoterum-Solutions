@@ -4,6 +4,7 @@ import arc.Core;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.util.io.*;
+import esoterum.content.EsoVars;
 import esoterum.interfaces.*;
 import mindustry.core.*;
 import mindustry.gen.*;
@@ -39,6 +40,15 @@ public class BinaryBlock extends Block {
         topRegion = Core.atlas.find(name + "-top");
     }
 
+    @Override
+    protected TextureRegion[] icons() {
+        return new TextureRegion[]{
+            region,
+            topRegion,
+            Core.atlas.find("eso-full-connections")
+        };
+    }
+
     public class BinaryBuild extends Building implements Binaryc {
         public boolean lastSignal;
         public boolean nextSignal;
@@ -51,7 +61,7 @@ public class BinaryBlock extends Block {
         // this hurts me
         public void draw(){
             Draw.rect(region, x, y);
-            Draw.color(Color.white, Color.green, lastSignal ? 1f : 0f);
+            Draw.color(Color.white, EsoVars.connectionColor, lastSignal ? 1f : 0f);
             if(drawConnection) for (Building b : nb) {
                 if(!(b instanceof BinaryBuild) || b.team != team) continue;
                 if(!b.block.rotate || (b.front() == this || b.back() == this) || front() == b){

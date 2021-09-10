@@ -1,7 +1,9 @@
 package esoterum.type;
 
+import arc.Core;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
+import arc.graphics.g2d.TextureRegion;
 import mindustry.graphics.*;
 
 public class BinaryLed extends BinaryAcceptor {
@@ -11,6 +13,15 @@ public class BinaryLed extends BinaryAcceptor {
         rotate = true;
         emits = false;
         drawArrow = false;
+    }
+
+    @Override
+    protected TextureRegion[] icons() {
+        return new TextureRegion[]{
+            region,
+            topRegion,
+            Core.atlas.find("eso-gate-connections")
+        };
     }
 
     public class BinaryLedBuild extends BinaryAcceptorBuild {
@@ -34,18 +45,13 @@ public class BinaryLed extends BinaryAcceptor {
             Draw.rect(region, x, y);
             for(int i = 0; i < 3; i++){
                 if(!inputs[i])continue;
-                Color inputColor = new Color(0, 0, 0, 1);
-                switch(i) {
-                    case 0:
-                        inputColor = new Color(sLeft() ? 1 : 0, 0, 0, 1);
-                        break;
-                    case 1:
-                        inputColor = new Color(0, sBack() ? 1 : 0, 0, 1);
-                        break;
-                    case 2:
-                        inputColor = new Color(0, 0, sRight() ? 1 : 0, 1);
-                        break;
-                }
+                new Color(0, 0, 0, 1);
+                Color inputColor = switch (i) {
+                    case 0 -> new Color(sLeft() ? 1 : 0, 0, 0);
+                    case 1 -> new Color(0, sBack() ? 1 : 0, 0);
+                    case 2 -> new Color(0, 0, sRight() ? 1 : 0);
+                    default -> new Color(1, 1, 1);
+                };
                 Draw.color(inputColor);
                 Draw.rect(connectionRegion, x, y, (90f + 90f * i) + rotdeg());
             }

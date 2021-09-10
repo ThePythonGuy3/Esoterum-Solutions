@@ -1,17 +1,15 @@
 package esoterum.type;
 
-import arc.Core;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.Point2;
 import arc.util.*;
 import arc.util.io.*;
+import esoterum.content.EsoVars;
 import mindustry.*;
-import mindustry.game.Team;
 import mindustry.gen.*;
 import mindustry.graphics.*;
-import mindustry.world.Tile;
 
 public class BinaryNode extends BinaryAcceptor{
     public BinaryNode(String name){
@@ -19,12 +17,6 @@ public class BinaryNode extends BinaryAcceptor{
         rotate = false;
         configurable = true;
         drawConnection = false;
-    }
-
-    @Override
-    public void load() {
-        super.load();
-        region = Core.atlas.find("eso-binary-node-base");
     }
 
     public class BinaryNodeBuild extends BinaryAcceptorBuild {
@@ -62,7 +54,7 @@ public class BinaryNode extends BinaryAcceptor{
             super.draw();
             if(link != null && accepting) {
                 Draw.z(Layer.power);
-                Draw.color(Color.white, Color.green, lastSignal ? 1f : 0f);
+                Draw.color(Color.white, EsoVars.connectionColor, lastSignal ? 1f : 0f);
                 Lines.stroke(1f);
                 Lines.line(x, y, link.x, link.y);
                 Fill.circle(x, y, 1.5f);
